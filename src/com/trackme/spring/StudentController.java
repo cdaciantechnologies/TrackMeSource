@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trackme.constants.Constant;
+import com.trackme.spring.model.Location;
 import com.trackme.spring.model.Student;
 import com.trackme.spring.model.UserMaster;
 import com.trackme.spring.model.VehicleGroup;
@@ -95,7 +96,8 @@ private RouteScheduleService  routeScheduleService   ;
 		
 		model.addAttribute("routeSchedules", routeScheduleService.listRouteScheduleDetails());
 		model.addAttribute("routes", routeService.listRouteDetails());
-		model.addAttribute("locations", locationService.listLocations());
+		List<Location> locationList=locationService.listLocations();
+		model.addAttribute("locations", locationList);
 		return "Student_entry";
 	}
 	
