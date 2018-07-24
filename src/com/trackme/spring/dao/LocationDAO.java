@@ -10,6 +10,7 @@ public interface LocationDAO {
 	public void updateLocation(Location location);
 	public List<Location> listLocation();
 	public Location getLocationByLocationName(String locationName);
+	public Location getLocationById(String id);
 	public void removeLocation(String locationName);
 
 }

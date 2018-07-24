@@ -42,10 +42,17 @@ public class LocationServiceImpl implements LocationService{
 		return locationDAO.getLocationByLocationName(name);
 	}
 
+	
 	@Override
 	@Transactional
-	public void removeLocation(String name) {
-		Location location= locationDAO.getLocationByLocationName(name);
+	public Location getLocationById(String id) {
+		return locationDAO.getLocationById(id);
+	}
+
+	@Override
+	@Transactional
+	public void removeLocation(String id) {
+		Location location= locationDAO.getLocationById(id);
 		location.setStatus(Constant.STATUS_INACTIVE);
 		locationDAO.updateLocation(location);
 			

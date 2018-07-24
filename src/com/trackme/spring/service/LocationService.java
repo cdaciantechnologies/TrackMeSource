@@ -10,5 +10,6 @@ public interface LocationService {
 	public void updateLocation(Location p);
 	public List<Location> listLocations();
 	public Location getLocationByName(String name);
+	public Location getLocationById(String id);
 	public void removeLocation(String name);
 }

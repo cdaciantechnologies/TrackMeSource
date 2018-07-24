@@ -55,7 +55,7 @@
    
                                                                 <th>Location</th>
                                                                 <th>Address</th>
-                                                                <th>Radius</th>
+                                                               
                                                                 
                                                                 <th>Created By</th>
                                                                 <th>Created Date</th>
@@ -116,18 +116,18 @@
         	  dom: '<"top"lBf>rt<"bottom"p><"clear">',
           	data:locationJSON,
               columns:[
-                       {data: "locationName",
+                       {data: "id",
                     	 "render": function ( data, type, full, meta ) {
-                    	      return '<a href="EditLocationView?name='+data+'"><i class="fa fa-pencil-square-o iconedit"  aria-hidden="true"></i></a>';}
+                    	      return '<a href="EditLocationView?id='+data+'"><i class="fa fa-pencil-square-o iconedit"  aria-hidden="true"></i></a>';}
                     	 },
-                     {data: "locationName",
+                     {data: "id",
                         	 "render": function ( data, type, full, meta ) {
-                       	      return '<a href="RemoveLocationRecord?name='+data+'"><i class="fa fa-trash  icondelete" aria-hidden="true"></i></a>';}           	
+                       	      return '<a href="RemoveLocationRecord?id='+data+'"><i class="fa fa-trash  icondelete" aria-hidden="true"></i></a>';}           	
                     		 
                      },{data: "locationName"},
                      
                        {data: "address"},
-                       {data: "radiusLocation"},
+              
                     
                        {data: "createdBy"},
                        {data: "createdDateShow"},

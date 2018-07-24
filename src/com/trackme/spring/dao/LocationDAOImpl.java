@@ -63,6 +63,21 @@ public class LocationDAOImpl implements LocationDAO {
 			return null;
 	
 	}
+	
+	@Override
+	public Location getLocationById(String id) {
+		try{
+			Integer locId= Integer.parseInt(id);
+			Session session = this.sessionFactory.getCurrentSession();		
+			Location location = (Location) session.load(Location.class, locId);
+			logger.info("location loaded successfully, location details="+location);
+			return location;
+			}catch(Exception e){
+				logger.equals(e.getMessage());
+			}
+			return null;
+	
+	}
 
 	@Override
 	public void removeLocation(String locationName) {

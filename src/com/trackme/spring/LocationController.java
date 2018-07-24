@@ -74,8 +74,8 @@ public class LocationController extends BaseController{
 	
 	
 	@RequestMapping(value = "/EditLocationView", method = RequestMethod.GET)
-	public String editLocation(Model model,@RequestParam("name") String name, HttpServletRequest request, HttpServletResponse response) {	
-		Location location=this.locationService.getLocationByName(name);
+	public String editLocation(Model model,@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) {	
+		Location location=this.locationService.getLocationById(id);
 		location.setEditFlag(true);
 		model.addAttribute("location", location);
 		return "location_master_entry";
@@ -137,9 +137,9 @@ public class LocationController extends BaseController{
 		
 	
 	@RequestMapping("/RemoveLocationRecord")
-    public String removeDeviceMaster(@RequestParam("name") String name, Model model, HttpServletRequest request, HttpServletResponse response){
+    public String removeDeviceMaster(@RequestParam("id") String id, Model model, HttpServletRequest request, HttpServletResponse response){
 		
-		locationService.removeLocation(name);
+		locationService.removeLocation(id);
 	     addSuccessMessage("Location details inactivated successfully.");
 	        addSuccessOrErrorMessageToModel(model);
 			
