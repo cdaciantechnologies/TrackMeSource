@@ -12,4 +12,6 @@ public interface RouteScheduleService {
 	public void removeRouteScheduleDetails(String routeScheduleId);
 	
 	public void deleteVehicleSchedule(String id);
+	public List<RouteSchedule>  listCurrentActiveSchedule();
+
 }

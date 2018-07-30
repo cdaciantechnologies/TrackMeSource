@@ -146,23 +146,8 @@ input#addlocation {
 									<form:input type="text" required="true"
 										path="locationDescription" id="Desc"
 										name="locationdescription" class="form-control" />
-
 								</div>
-								<div class="form-group">
-									<label>Radius at Location(in mts)</label>
-									<form:input type="text" pattern="\d*" required="true"
-										title="It must be numberic data" path="radiusLocation"
-										id="redius" name="radiuslocation" class="form-control" />
-
-								</div>
-								<div class="form-group">
-									<label>Refer Radius(in mts)</label>
-									<form:input type="text" pattern="\d*" required="true"
-										title="It must be numberic data" path="radiusReferLocation"
-										id="refer_redius" name="radiusreferlocation"
-										class="form-control" />
-								</div>
-								 
+														 
 								 <!-- 
 								<div class="form-group">
 									<label>Latitude</label>
@@ -204,7 +189,7 @@ input#addlocation {
 
 								<input type="button" class="btn btn-danger" id="button3"
 									value="Close"
-									onclick="location.href = 'location_master_view1.html'" />
+									onclick="location.href = 'LocationMasters'" />
 
 							</div>
 							<!-- This div contain map  -->
