@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,8 +28,12 @@ import com.trackme.constants.Constant;
 @Table(name="route")
 public class Route
 {
-  @Id
-  @Column(name="routename")	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
+	private int id;
+  
+@Column(name="routename")	
   private String routeName;
   
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="route",orphanRemoval = true)	
@@ -57,9 +63,20 @@ public class Route
   
   @Transient
   private String[] locations;
+  
+  @Transient
+  private boolean[] notifications;
 
   
-  public String[] getLocations() {
+  public boolean[] getNotifications() {
+	return notifications;
+}
+
+public void setNotifications(boolean[] notifications) {
+	this.notifications = notifications;
+}
+
+public String[] getLocations() {
 	return locations;
 }
 
@@ -210,4 +227,13 @@ public String getStatus() {
 public void setStatus(String status) {
 	this.status = status;
 }
+
+public int getId() {
+	return id;
+}
+
+public void setId(int id) {
+	this.id = id;
+}
+
   }

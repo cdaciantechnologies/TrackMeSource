@@ -45,6 +45,7 @@
                                     <form:input required="true" type="text"  path="routeName" disabled="true" id="primaryKey" class="form-control" />
                                     	<form:hidden path="editFlag" value="${routeMaster.editFlag}"/>
 											<form:hidden path="createdBy" value="${routeMaster.createdBy}"/>
+												<form:hidden path="id" value="${routeMaster.id}"/>
 								<form:hidden path="createdDateShow" value="${routeMaster.createdDateShow}"/>
 						
 							</c:if>
@@ -68,7 +69,7 @@
                                   
                                     <select name="location" id="location" class="form-control">
                                     <c:forEach var="location" items="${locations}">
-                                     <option value="${location.locationName }">${location.locationName }</option>
+                                     <option value="${location.id }">${location.locationName }</option>
                                     </c:forEach>
                                        
                                     </select>
@@ -77,20 +78,24 @@
                                        <c:if test="${routeMaster.editFlag==true }">
 										<c:forEach var="locatn" items="${routeMaster.locationsForRoute}">
 									 <input type="hidden" name="locationsOfRoute" id="locationsOfRoute" value="${locatn.location.locationName }" />
-	</c:forEach>
+									 <input type="hidden" name="locationsOfRouteId" id="locationsOfRouteId" value="${locatn.location.id }" />
+									   <input type= "hidden" name="hiddenNotifications" id ="hiddenNotifications" value = "${locatn.notification}">
+									</c:forEach>
 									</c:if>
                                     <input name="addlocation" type="button" class="btn  btn-primary" onclick="addLocation()" id="addlocation" value="Add Location" />
                                     <input type="hidden" name="rows" id="rows" />
-
+                                
                                 </div>
                             </div>
                             <div class="table-responsive" style="width: 50%; border: 1px solid">
                                 <table width="50%" border="1" cellpadding="0" cellspacing="0" id="entrydata" class="table table-striped table-bordered new-tbl">
                                     <tbody>
                                         <tr>
-                                            <th width="20%" align="right" bgcolor="#CCC4C4">Sl no</th>
+                                            <th width="20%" align="right" bgcolor="#CCC4C4">Serial No</th>
                                             <th width="50%" align="right" bgcolor="#CCC4C4">Location</th>
                                             <th width="30%" align="right" bgcolor="#CCC4C4">Action</th>
+  											<th width="30%" align="right" bgcolor="#CCC4C4">Notification</th>                                          
+                                  
                                         </tr>
                                     </tbody>
                                 </table>
@@ -165,11 +170,16 @@
 			return true;
 		}
 		
-		
+		 $('.i-checks').iCheck({
+	            checkboxClass: 'icheckbox_square-green',
+	            radioClass: 'iradio_square-green',
+	        });
 
 		    $(document).ready(function () {
-		    
+		    debugger;
 		    	var prev_locations = document.getElementsByName("locationsOfRoute");
+		    	var prev_locationsId = document.getElementsByName("locationsOfRouteId");
+		    	var prev_notifications = document.getElementsByName("hiddenNotifications");
 		    	for(var i=0;i< prev_locations.length;i++){
 		        var location = prev_locations[i];
 	            var table = document.getElementById("entrydata");
@@ -183,11 +193,19 @@
 	            input.type = "input";
 	            input.value = location.value;
 	            input.id = "route" + rowCount;
-	            input.name = "locations";
+	            input.name = "locationsName";
 	            input.className = "form-control";
 
 	            input.readOnly = true;
+	            
+	            var inputId = document.createElement('input');
+	            inputId.value = prev_locationsId[i].value;
+	            inputId.id = "route" + rowCount;
+	            inputId.name = "locations";
+	            inputId.type = "hidden";
+	            
 	            cell.appendChild(input);
+	            cell.appendChild(inputId);
 
 	            cell = row.insertCell(2);
 	            var btn = document.createElement('input');
@@ -202,6 +220,15 @@
 	                }
 	            );
 	            cell.appendChild(btn);
+	            
+	            cell = row.insertCell(3);
+	            var checkbox= document.createElement('input');
+	            checkbox.type = "checkbox"; 
+	            checkbox.className = "i-checks";
+	            checkbox.id = "checkbox" + rowCount;
+	            checkbox.name = "notifications";
+	            checkbox.value= prev_notifications[i].value;
+	            cell.appendChild(checkbox);
 
 	            var rows = document.getElementById("rows");
 	            rows.value = rowCount;
@@ -209,6 +236,7 @@
 		    });
 
         function addLocation() {
+        	debugger;
             var location = document.getElementById("location");
             var table = document.getElementById("entrydata");
             var rowCount = document.getElementById('entrydata').rows.length;
@@ -219,12 +247,22 @@
             cell = row.insertCell(1);
             var input = document.createElement('input');
             input.type = "input";
-            input.value = location.value;
+            input.value = location.selectedOptions[0].innerText;
             input.id = "route" + rowCount;
-            input.name = "locations";
+            input.name = "locationsName";
             input.className = "form-control";
 
             input.readOnly = true;
+            
+
+            var inputId = document.createElement('input');
+            inputId.value = location.value;
+            inputId.id = "route" + rowCount;
+            inputId.name = "locations";
+            inputId.type = "hidden";
+
+
+            cell.appendChild(inputId); 
             cell.appendChild(input);
 
             cell = row.insertCell(2);
@@ -240,92 +278,20 @@
                 }
             );
             cell.appendChild(btn);
-
+            
+            cell = row.insertCell(3);
+            var checkbox= document.createElement('input');
+            checkbox.type = "checkbox"; 
+            checkbox.className = "i-checks";
+            checkbox.id = "checkbox" + rowCount;
+            checkbox.name = "notifications";
+            checkbox.value = true;
+            cell.appendChild(checkbox);
+            
             var rows = document.getElementById("rows");
             rows.value = rowCount;
         }
 
     </script>
 </body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-<body onload="getLocations()">
-    <form action="http://166.62.56.246:8080/TrackMeWeb/TrackMeServlet" method="post">
-        <table width="452" height="290" border="1" cellpadding="0" cellspacing="0" class="entrydata">
-            <tbody>
-                <tr>
-                    <th width="446" height="23" align="left" valign="middle" bgcolor="#CCCCCC" style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; font-style: inherit; font-size: 12px;">Route Creation </th>
-                </tr>
-                <tr>
-                    <th height="87" align="left" valign="baseline" bgcolor="#FFFFFF" style="vertical-align: middle;">
-                        <p>
-                            <label for="textfield">Route Name : </label>
-                            <input type="text" name="routename" id="routename">
-                        </p>
-                        <p>
-                            <label for="Location">Location : </label>
-                            <select name="location" id="location">
-                                <option value=""></option>
-                            </select>
-                            <input name="addlocation" type="button" class="button" onclick="addLocation()" id="addlocation" value="Add Location">
-                            <input type="hidden" name="rows" id="rows" />
-                        </p>
-                    </th>
-                </tr>
-                <tr>
-                    <td width="446" height="18" align="left" valign="top" bgcolor="#CCCCCC" style="font-weight: bold; font-style: inherit;">Assigned Location</td>
-                </tr>
-                <tr>
-                    <td valign="top">
-                        <table width="449" border="1" cellpadding="0" cellspacing="0" class="entrydata" id="entrydata">
-                            <tbody>
-                                <tr>
-                                    <th width="20%" bgcolor="#CCC4C4">Sl no</th>
-                                    <th width="80%" bgcolor="#CCC4C4">Location</th>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td height="31" align="center" valign="middle" bgcolor="#999999">
-                        <input name="action" type="submit" class="button" id="button" value="Add Route">
-                        <input name="button3" type="submit" class="button" onclick="location.href = 'alert_master_view.html'" id="button3" value="Close">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </form>
-</body>-->
 </html>

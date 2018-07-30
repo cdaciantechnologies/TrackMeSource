@@ -1,9 +1,5 @@
 package com.trackme.spring.model;
 
-import java.text.ParseException;
-import java.util.Date;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,12 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.trackme.constants.Constant;
 
 @Entity
 @Table(name="LocationsForRoute")
@@ -37,6 +30,9 @@ public class LocationsForRoute
 
 @Column(name="sequence")
 private Integer sequence;
+
+@Column(name="notification")
+private boolean notification;
 
 public Integer getId() {
 	return id;
@@ -68,6 +64,14 @@ public Integer getSequence() {
 
 public void setSequence(Integer sequence) {
 	this.sequence = sequence;
+}
+
+public boolean isNotification() {
+	return notification;
+}
+
+public void setNotification(boolean notification) {
+	this.notification = notification;
 }
 
 

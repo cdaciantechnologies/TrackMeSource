@@ -32,7 +32,7 @@
         <div id="page-wrapper2" class="gray-bg">
             <div class="rowx wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-6">
-                    <h2>View Route Detials</h2>
+                    <h2>View Route Details</h2>
                 </div>
                 <div class="col-sm-6">
                     <div class="text-right">
@@ -123,11 +123,11 @@ var routeJSON = ${RouteJSON};
         	dom: '<"top"lBf>rt<"bottom"p><"clear">',
         	data:routeJSON,
             columns:[
-                     {data: "routeName",
+                     {data: "id",
                     	 "render": function ( data, type, full, meta ) {
                     	      return '<a href="editRouteMastersView?id='+data+'"><i class="fa fa-pencil-square-o iconedit"  aria-hidden="true"></i></a>';}
                     	 },
-                     {data: "routeName",
+                     {data: "id",
                         	 "render": function ( data, type, full, meta ) {
                        	      return '<a href="RemoveRouteMasterRecord?id='+data+'"><i class="fa fa-trash  icondelete" aria-hidden="true"></i></a>';}
                        	

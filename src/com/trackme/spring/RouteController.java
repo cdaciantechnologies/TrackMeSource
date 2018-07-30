@@ -86,7 +86,6 @@ private RouteService routeService;
 		routeMaster.setEditFlag(true);
 		model.addAttribute("routeMaster", routeMaster);
 		model.addAttribute("locations",locationService.listLocations());
-			
 		return "route_master_entry";
 	}
 	
@@ -94,17 +93,21 @@ private RouteService routeService;
 	@RequestMapping(value= "/AddOrUpdateRouteRecord", method = RequestMethod.POST)
 	public String addRoute(@ModelAttribute("routeMaster") Route routeMaster, Model model, HttpServletRequest request, HttpServletResponse response){		
 		//Add Driver
-		Route routeMasterExist=this.routeService.getRouteDetailsById(String.valueOf(routeMaster.getRouteName()));
+		Route routeMasterExist=this.routeService.getRouteDetailsById(String.valueOf(routeMaster.getId()));
 		if(routeMasterExist==null){
 			List<LocationsForRoute> listOfLocationsForRoiute=new ArrayList<>();
 			int count=1;
+			int index=0;
 			for(String location:routeMaster.getLocations()){
+				boolean notification= routeMaster.getNotifications()[index];
 				LocationsForRoute locationForRoute = new LocationsForRoute();
-				Location locationMaster=locationService.getLocationByName(location);
+				Location locationMaster=locationService.getLocationById(location);
 				locationForRoute.setRoute(routeMaster);
 				locationForRoute.setLocation(locationMaster);
+				locationForRoute.setNotification(notification);
 				locationForRoute.setSequence(count);
 				listOfLocationsForRoiute.add(locationForRoute);
+				index++;
 				count++;
 			}
 			routeMaster.setLocationsForRoute(listOfLocationsForRoiute);
@@ -118,16 +121,16 @@ private RouteService routeService;
 		} else{
 			if(routeMaster.isEditFlag()){
 				
-				List<LocationsForRoute> listOfLocationsForRoiute=routeMasterExist.getLocationsForRoute();
-				listOfLocationsForRoiute.removeAll(listOfLocationsForRoiute);
+				List<LocationsForRoute> listOfLocationsForRoute=routeMasterExist.getLocationsForRoute();
+				listOfLocationsForRoute.removeAll(listOfLocationsForRoute);
 				int count=1;
 				for(String location:routeMaster.getLocations()){
 					LocationsForRoute locationForRoute = new LocationsForRoute();
-					Location locationMaster=locationService.getLocationByName(location);
+					Location locationMaster=locationService.getLocationById(location);
 					locationForRoute.setRoute(routeMaster);
 					locationForRoute.setLocation(locationMaster);
 					locationForRoute.setSequence(count);
-					listOfLocationsForRoiute.add(locationForRoute);
+					listOfLocationsForRoute.add(locationForRoute);
 					count++;
 				}
 				//routeMasterExist.setLocationsForRoute(listOfLocationsForRoiute);

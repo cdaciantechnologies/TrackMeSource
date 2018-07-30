@@ -17,7 +17,7 @@ import com.trackme.spring.model.Route;
 @Repository("RouteDetailsDAO")
 public class RouteDetailsDAOImpl implements RouteDetailsDAO{
 
-	private static final Logger logger = LoggerFactory.getLogger(VehicleMasterDAOImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(RouteDetailsDAOImpl.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -65,8 +65,8 @@ public class RouteDetailsDAOImpl implements RouteDetailsDAO{
 	public Route getRouteDetailsById(String routeDetailsId) {
 		try{
 			Session session = this.sessionFactory.getCurrentSession();
-			
-			Route route = (Route) session.load(Route.class, routeDetailsId);
+			int routeId= Integer.parseInt(routeDetailsId);
+			Route route = (Route) session.load(Route.class, routeId);
 			logger.info("routeDetailsId loaded successfully, routeDetailsId details="+route);
 			return route;
 			}catch(Exception e){
@@ -81,7 +81,8 @@ public class RouteDetailsDAOImpl implements RouteDetailsDAO{
 	@Override
 	public void removeRouteDetails(String routeDetailsId) {
 		Session session = this.sessionFactory.getCurrentSession();
-		Route p = (Route) session.load(DeviceMaster.class, routeDetailsId);
+		int routeId= Integer.parseInt(routeDetailsId);
+		Route p = (Route) session.load(Route.class, routeId);
 		if(null != p){
 			session.delete(p);
 		}
