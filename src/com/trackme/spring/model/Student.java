@@ -1,7 +1,6 @@
 package com.trackme.spring.model;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -10,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -59,24 +60,16 @@ private String gaurdianName;
 @Column(name="gaurdianmobileno")
 private String gaurdianMobile;
 
+@OneToOne
+@JoinColumn(name="pickuplocation")
+private Location pickUpLocation;
 
-
-@Column(name="schedulename")
-private String routeScheduleId;
-
-@Column(name="pickuplocation")
-private String pickUpLocation;
-
-@Column(name="droplocation")
-private String dropLocation;
+@OneToOne
+@JoinColumn(name="droplocation")
+private Location dropLocation;
 
 @Column(name="routename")
 private String routeName;
-
-
-@Column(name="dropschedulename")
-private String dropRouteScheduleId;
-
 
 
 @Column(name="createdby")
@@ -91,7 +84,13 @@ private String modifiedBy;
 @Column(name="modifieddate")
 private Date modifiedDate;
 
+@OneToOne
+@JoinColumn(name="pickuprouteschedule")
+private RouteSchedule pickupRouteSchedule;
 
+@OneToOne
+@JoinColumn(name="droprouteschedule")
+private RouteSchedule dropRouteSchedule;
 
 
 public Integer getId() {
@@ -182,32 +181,6 @@ public void setGaurdianMobile(String gaurdianMobile) {
 	this.gaurdianMobile = gaurdianMobile;
 }
 
-public String getRouteScheduleId() {
-	return routeScheduleId;
-}
-
-public void setRouteScheduleId(String routeScheduleId) {
-	this.routeScheduleId = routeScheduleId;
-}
-
-
-
-
-public String getPickUpLocation() {
-	return pickUpLocation;
-}
-
-public void setPickUpLocation(String pickUpLocation) {
-	this.pickUpLocation = pickUpLocation;
-}
-
-public String getDropLocation() {
-	return dropLocation;
-}
-
-public void setDropLocation(String dropLocation) {
-	this.dropLocation = dropLocation;
-}
 
 public String getRouteName() {
 	return routeName;
@@ -320,13 +293,36 @@ public void setStatus(String status) {
 	this.status = status;
 }
 
-public String getDropRouteScheduleId() {
-	return dropRouteScheduleId;
+public RouteSchedule getPickupRouteSchedule() {
+	return pickupRouteSchedule;
 }
 
-public void setDropRouteScheduleId(String dropRouteScheduleId) {
-	this.dropRouteScheduleId = dropRouteScheduleId;
+public void setPickupRouteSchedule(RouteSchedule pickupRouteSchedule) {
+	this.pickupRouteSchedule = pickupRouteSchedule;
 }
 
+public RouteSchedule getDropRouteSchedule() {
+	return dropRouteSchedule;
+}
+
+public void setDropRouteSchedule(RouteSchedule dropRouteSchedule) {
+	this.dropRouteSchedule = dropRouteSchedule;
+}
+
+public Location getPickUpLocation() {
+	return pickUpLocation;
+}
+
+public void setPickUpLocation(Location pickUpLocation) {
+	this.pickUpLocation = pickUpLocation;
+}
+
+public Location getDropLocation() {
+	return dropLocation;
+}
+
+public void setDropLocation(Location dropLocation) {
+	this.dropLocation = dropLocation;
+}
 
 }

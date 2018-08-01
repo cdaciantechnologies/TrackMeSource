@@ -111,50 +111,29 @@
 
 							<div class="form-group col-sm-6">
 								<label>Pick-Up Schedule:</label>
-								<form:select path="routeScheduleId" id="routeScheduleId"
-									class="form-control">
-<form:option value="" label="select" />
-									<form:options items="${routeSchedules}" itemValue="scheduleName"
-										itemLabel="scheduleName"></form:options>
-								</form:select>
-
+									 <form:select class="form-control" required="true" path="pickupRouteSchedule.id" items="${routeSchedules}" 
+							 		itemLabel="scheduleName" itemValue="id"></form:select>
 							</div>
 							
 							
 							<div class="form-group col-sm-6">
 								<label>Drop Schedule:</label>
-								<form:select path="dropRouteScheduleId" id="dropRouteScheduleId"
-									class="form-control">
-
-									<form:options items="${routeSchedules}" itemValue="scheduleName"
-										itemLabel="scheduleName"></form:options>
-								</form:select>
+							 <form:select class="form-control" required="true" path="dropRouteSchedule.id" items="${routeSchedules}" 
+							 		itemLabel="scheduleName" itemValue="id"></form:select>
 
 							</div>
 
-
-
-
-						
-							
-							
 														<div class="form-group col-sm-6">
 								<label>Pickup Location:</label>
-								<form:select path="pickUpLocation" id="pickuplocation" class="form-control">
-<form:option value="" label="select" />
-									<form:options items="${locations}" itemValue="locationName"
-										itemLabel="locationName"></form:options>
-								</form:select>
+								 <form:select class="form-control" required="true" path="pickUpLocation.id" items="${locations}" 
+							 		itemLabel="locationName" itemValue="id"></form:select>
 
 							</div>
 
 														<div class="form-group col-sm-6">
 								<label>Drop Location:</label>
-								<form:select path="dropLocation" id="dropLocation" class="form-control">
-<form:option value="" label="select" />
-									<form:options items="${locations}" itemValue="locationName"
-										itemLabel="locationName"></form:options>
-								</form:select>
+									 <form:select class="form-control" required="true" path="dropLocation.id" items="${locations}" 
+							 		itemLabel="locationName" itemValue="id"></form:select>
 
 							</div>
 

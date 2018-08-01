@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,27 +18,22 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bedatadriven.jackson.datatype.jts.JtsModule;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trackme.constants.Constant;
 import com.trackme.spring.model.Location;
 import com.trackme.spring.model.Student;
 import com.trackme.spring.model.UserMaster;
-import com.trackme.spring.model.VehicleGroup;
-import com.trackme.spring.model.VehicleMaster;
-import com.trackme.spring.service.StudentService;
-import com.trackme.spring.service.DeviceMasterService;
 import com.trackme.spring.service.LocationService;
 import com.trackme.spring.service.RouteScheduleService;
 import com.trackme.spring.service.RouteService;
-import com.trackme.spring.service.VehicleGroupService;
-import com.trackme.spring.service.VehicleMasterService;
+import com.trackme.spring.service.StudentService;
 
 
 @Controller
@@ -54,12 +48,6 @@ private RouteService routeService;
 @Autowired(required=true)
 @Qualifier(value="locationService")
 private LocationService  locationService;
-
-@Autowired
-private VehicleGroupService vehicleGroupService;
-
-
-
 
 @Autowired(required=true)
 @Qualifier(value="routeScheduleService")
@@ -79,6 +67,7 @@ private RouteScheduleService  routeScheduleService   ;
 		model.addAttribute("routeScheduleList", routeScheduleService.listRouteScheduleDetails());
 	    List<Student> student=this.studentService.listStudents();		
 		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JtsModule());
 		String studentJSON=null;
 		try {
 			studentJSON = objectMapper.writeValueAsString(student);
@@ -118,8 +107,6 @@ private RouteScheduleService  routeScheduleService   ;
 	@RequestMapping(value= "/AddOrUpdateStudentsRecord", method = RequestMethod.POST)
 	public String addStudent(@ModelAttribute("Student") Student student, Model model, HttpServletRequest request, HttpServletResponse response){		
 		//Add Driver
-		
-		
 		
 			Student studentExist=this.studentService.getStudentById(String.valueOf(student.getId()));
 		

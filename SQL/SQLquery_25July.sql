@@ -70,3 +70,31 @@ ALTER TABLE public.routeschedule
 
 drop table routevehicle   
   
+  
+  ALTER TABLE public.student
+  DROP COLUMN schedulename;
+ALTER TABLE public.student
+  DROP COLUMN dropschedulename;
+  delete from student; 
+  
+ALTER TABLE public.student
+  ADD COLUMN pickuprouteschedule integer NOT NULL;
+ALTER TABLE public.student
+  ADD COLUMN droprouteschedule integer NOT NULL;
+ALTER TABLE public.student
+  ADD CONSTRAINT "pickuprouteschedule_FK" FOREIGN KEY (pickuprouteschedule) REFERENCES public.routeschedule (id) ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE public.student
+  ADD CONSTRAINT "droprouteschedule_FK" FOREIGN KEY (droprouteschedule) REFERENCES public.routeschedule (id) ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+  ALTER TABLE public.student
+  DROP COLUMN pickuplocation;
+ALTER TABLE public.student
+  DROP COLUMN droplocation;
+ALTER TABLE public.student
+  ADD COLUMN pickuplocation integer NOT NULL;
+ALTER TABLE public.student
+  ADD COLUMN droplocation integer NOT NULL;
+ALTER TABLE public.student
+  ADD CONSTRAINT "pickuplocation_FK" FOREIGN KEY (pickuplocation) REFERENCES public.location (id) ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE public.student
+  ADD CONSTRAINT "droplocation_FK" FOREIGN KEY (droplocation) REFERENCES public.location (id) ON UPDATE NO ACTION ON DELETE NO ACTION;

@@ -70,8 +70,6 @@
                                                            <th>Student Name</th>
                                        					      <th>Pickup Schedule</th>
                                        					      <th>Drop Schedule</th>
-                                       					   
-                                                           <th>Route</th>
                                        					    <th>Pickup Location</th>
                                        					   
                                                            <th>Drop Location</th>
@@ -144,11 +142,10 @@
                      },
                        {data: "studentNo"},
                        {data: "studentName"},
-                       {data: "routeScheduleId"},
-                       {data: "dropRouteScheduleId"},
-                       {data: "routeName"},
-                       {data: "pickUpLocation"},
-                       {data: "dropLocation"},
+                       {data: "pickupRouteSchedule.scheduleName"},
+                       {data: "dropRouteSchedule.scheduleName"},
+                       {data: "pickUpLocation.locationName"},
+                       {data: "dropLocation.locationName"},
                    
                        {data: "createdBy"},
                        {data: "createdOnShow"},
@@ -254,10 +251,10 @@ $( "#dialogtest" ).dialog(); });
 
  <div class="form-group col-sm-12 text-center">
                                   Select Pick-up Schedule: 
-                                  <select name="routeSchedule" > 
+                                  <select name="pickupRouteSchedule" > 
                                   <option value="">select</option>
                                 <c:forEach items="${routeScheduleList}" var="routeSchedule">
-                                  <option title = "Vehicle : ${routeSchedule.vehicleNo} and Route : ${routeSchedule.routeName} "   value="${routeSchedule.scheduleName}">${routeSchedule.scheduleName}</option>
+                                  <option title = "Vehicle : ${routeSchedule.vehicleNo} and Route : ${routeSchedule.routeId.routeName} "   value="${routeSchedule.scheduleName}">${routeSchedule.scheduleName}</option>
                                 
                                 </c:forEach> 
                            </select>
@@ -267,10 +264,10 @@ $( "#dialogtest" ).dialog(); });
 							
 							 <div class="form-group col-sm-12 text-center">
                                   Select Drop Schedule: 
-                                  <select name="dropRouteScheduleId" > 
+                                  <select name="dropRouteSchedule" > 
                                   <option value="">select</option>
                                 <c:forEach items="${routeScheduleList}" var="routeSchedule1">
-                                  <option title = "Vehicle : ${routeSchedule1.vehicleNo} and Route : ${routeSchedule1.routeName} "   value="${routeSchedule1.scheduleName}">${routeSchedule1.scheduleName}</option>
+                                  <option title = "Vehicle : ${routeSchedule1.vehicleNo} and Route : ${routeSchedule1.routeId.routeName} "   value="${routeSchedule1.scheduleName}">${routeSchedule1.scheduleName}</option>
                                 
                                 </c:forEach> 
                              
