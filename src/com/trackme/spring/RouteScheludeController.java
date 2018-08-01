@@ -95,12 +95,11 @@ public class RouteScheludeController extends BaseController{
 		
 		} else{
 			if(routeSchedule.isEditFlag()){
-				
-					
 				UserMaster currentUser=(UserMaster) request.getSession().getAttribute(Constant.CURRENT_USER);
-				routeScheduleExist.setModifiedby(currentUser.getUserName());
-				routeScheduleExist.setModifiedDate(new Date());
-				routeScheduleService.updateRouteScheduleDetails(routeScheduleExist);	
+				routeSchedule.setModifiedby(currentUser.getUserName());
+				routeSchedule.setModifiedDate(new Date());
+				routeSchedule.setStatus(Constant.STATUS_ACTIVE);
+				routeScheduleService.updateRouteScheduleDetails(routeSchedule);	
 			addSuccessMessage("RouteSchedule details updated successfully.");
 			}else{
 				addErrorMessage("RouteSchedule already exists. Please enter unique value.");
