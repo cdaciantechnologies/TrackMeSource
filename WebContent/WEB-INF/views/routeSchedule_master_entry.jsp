@@ -46,6 +46,7 @@
                                     	<form:hidden path="editFlag" value="${routeSchedule.editFlag}"/>
 											<form:hidden path="createdby" value="${routeSchedule.createdby}"/>
 								<form:hidden path="createdDateShow" value="${routeSchedule.createdDateShow}"/>
+								<form:hidden path="id" value="${routeSchedule.id}"/>
 						
 							</c:if>
 							<c:if test="${routeSchedule.editFlag==false }">
@@ -55,11 +56,7 @@
 							</c:if></div>
                                 <div class="form-group col-sm-6">
                                     <label for="txtroute">Select Route :</label>
-                                    <form:select path="routeName" id="routeName" class="form-control">
-<form:option value="" label="select" />
-									<form:options items="${routes}" itemValue="routeName"
-										itemLabel="routeName"></form:options>
-								</form:select>
+                                    <form:select class="form-control" required="true" path="routeId.id" items="${routes}" itemLabel="routeName" itemValue="id"></form:select>
                                 </div>
 
                                 <div class="col-sm-6">
@@ -228,169 +225,11 @@
              rows.value = document.getElementById("rows").value - 1;
 		 });       
 	
-		
-
-		    $(document).ready(function () {
-		    
-		    	var prev_locations = document.getElementsByName("locationsOfRoute");
-		    	for(var i=0;i< prev_locations.length;i++){
-		        var location = prev_locations[i];
-	            var table = document.getElementById("entrydata");
-	            var rowCount = document.getElementById('entrydata').rows.length;
-	            row = table.insertRow(rowCount);
-	            row.className = "leftMenu";
-	            cell = row.insertCell(0);
-	            cell.innerHTML = rowCount;
-	            cell = row.insertCell(1);
-	            var input = document.createElement('input');
-	            input.type = "input";
-	            input.value = location.value;
-	            input.id = "route" + rowCount;
-	            input.name = "locations";
-	            input.className = "form-control";
-
-	            input.readOnly = true;
-	            cell.appendChild(input);
-
-	            cell = row.insertCell(2);
-	            var btn = document.createElement('input');
-	            btn.type = "button";
-	            btn.className = "btn btn-primary";
-	            btn.value = "Delete";
-	            btn.onclick = (
-	                function () {
-	                    this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
-	                    var rows = document.getElementById("rows");
-	                    rows.value = document.getElementById("rows").value - 1;
-	                }
-	            );
-	            cell.appendChild(btn);
-
-	            var rows = document.getElementById("rows");
-	            rows.value = rowCount;
-			}
-		    });
-
-        function addVehicle() {
-            var location = document.getElementById("vehicle");
-            var table = document.getElementById("entrydata");
-            var rowCount = document.getElementById('entrydata').rows.length;
-            row = table.insertRow(rowCount);
-            row.className = "leftMenu";
-            cell = row.insertCell(0);
-            cell.innerHTML = rowCount;
-            cell = row.insertCell(1);
-            var input = document.createElement('input');
-            input.type = "input";
-            input.value = location.value;
-            input.id = "vehicles" + rowCount;
-            input.name = "vehicleShow";
-            input.className = "form-control";
-
-            input.readOnly = true;
-            cell.appendChild(input);
-
-            cell = row.insertCell(2);
-            var btn = document.createElement('input');
-            btn.type = "button";
-            btn.className = "btn btn-primary";
-            btn.value = "Delete";
-            btn.onclick = (
-                function () {
-                    this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
-                    var rows = document.getElementById("rows");
-                    rows.value = document.getElementById("rows").value - 1;
-                }
-            );
-            cell.appendChild(btn);
-
-            var rows = document.getElementById("rows");
-            rows.value = rowCount;
-        }
 
     </script>
 </body>
 </html>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-<body onload="getLocations()">
-    <form action="http://166.62.56.246:8080/TrackMeWeb/TrackMeServlet" method="post">
-        <table width="452" height="290" border="1" cellpadding="0" cellspacing="0" class="entrydata">
-            <tbody>
-                <tr>
-                    <th width="446" height="23" align="left" valign="middle" bgcolor="#CCCCCC" style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; font-style: inherit; font-size: 12px;">Route Creation </th>
-                </tr>
-                <tr>
-                    <th height="87" align="left" valign="baseline" bgcolor="#FFFFFF" style="vertical-align: middle;">
-                        <p>
-                            <label for="textfield">Route Name : </label>
-                            <input type="text" name="routename" id="routename">
-                        </p>
-                        <p>
-                            <label for="Location">Location : </label>
-                            <select name="location" id="location">
-                                <option value=""></option>
-                            </select>
-                            <input name="addlocation" type="button" class="button" onclick="addLocation()" id="addlocation" value="Add Location">
-                            <input type="hidden" name="rows" id="rows" />
-                        </p>
-                    </th>
-                </tr>
-                <tr>
-                    <td width="446" height="18" align="left" valign="top" bgcolor="#CCCCCC" style="font-weight: bold; font-style: inherit;">Assigned Location</td>
-                </tr>
-                <tr>
-                    <td valign="top">
-                        <table width="449" border="1" cellpadding="0" cellspacing="0" class="entrydata" id="entrydata">
-                            <tbody>
-                                <tr>
-                                    <th width="20%" bgcolor="#CCC4C4">Sl no</th>
-                                    <th width="80%" bgcolor="#CCC4C4">Location</th>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td height="31" align="center" valign="middle" bgcolor="#999999">
-                        <input name="action" type="submit" class="button" id="button" value="Add Route">
-                        <input name="button3" type="submit" class="button" onclick="location.href = 'alert_master_view.html'" id="button3" value="Close">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </form>
-</body>-->
 
 <script
 	src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>

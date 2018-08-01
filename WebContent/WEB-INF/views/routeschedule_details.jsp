@@ -119,11 +119,11 @@ var routeScheduleJSON = ${RouteScheduleJSON};
             columns:[
                     
                      
-                     {data: "scheduleName",
+                     {data: "id",
                     	 "render": function ( data, type, full, meta ) {
                     	      return '<a href="editRouteSchedulesView?id='+data+'"><i class="fa fa-pencil-square-o iconedit"  aria-hidden="true"></i></a>';}
                     	 },
-                     {data: "scheduleName",
+                     {data: "id",
                         	 "render": function ( data, type, full, meta ) {
                        	      return '<a href="RemoveRouteScheduleRecord?id='+data+'"><i class="fa fa-trash  icondelete" aria-hidden="true"></i></a>';}
                        	
@@ -131,7 +131,7 @@ var routeScheduleJSON = ${RouteScheduleJSON};
                      },
                      
                      {data: "scheduleName"},
-                     {data: "routeName"},
+                     {data: "routeId.routeName"},
                      {data: "startDateShow"},
                      {data: "endDateShow"},
                      {data: "createdby"},

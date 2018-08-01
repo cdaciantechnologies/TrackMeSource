@@ -1,6 +1,5 @@
 package com.trackme.spring;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,12 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trackme.constants.Constant;
-import com.trackme.spring.model.Location;
-import com.trackme.spring.model.LocationsForRoute;
-import com.trackme.spring.model.Route;
 import com.trackme.spring.model.RouteSchedule;
 import com.trackme.spring.model.UserMaster;
-import com.trackme.spring.model.VehicleService;
 import com.trackme.spring.service.RouteScheduleService;
 import com.trackme.spring.service.RouteService;
 import com.trackme.spring.service.VehicleMasterService;
@@ -46,12 +41,6 @@ public class RouteScheludeController extends BaseController{
 	public void setRouteScheduleService(RouteScheduleService routeScheduleService) {
 		this.routeScheduleService = routeScheduleService;
 	}
-
-	
-
-
-
-
 
 	@RequestMapping(value = "/ViewRouteScheduleDetails", method = RequestMethod.GET)
 	public String viewRouteScheduleDetails(Model model) {	
@@ -82,7 +71,8 @@ public class RouteScheludeController extends BaseController{
 	
 	@RequestMapping(value = "/editRouteSchedulesView", method = RequestMethod.GET)
 	public String editRouteSchedule(Model model,@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) {	
-		RouteSchedule routeSchedule=this.routeScheduleService.getRouteScheduleDetailsById(id);
+		Integer routeScheduleId = Integer.parseInt(id);
+		RouteSchedule routeSchedule=this.routeScheduleService.getRouteScheduleDetailsById(routeScheduleId);
 		routeSchedule.setEditFlag(true);
 		model.addAttribute("routeSchedule", routeSchedule);
 		model.addAttribute("vehicles",vehicleMasterService.listVehicleMasters());
@@ -94,11 +84,8 @@ public class RouteScheludeController extends BaseController{
 	@RequestMapping(value= "/AddOrUpdateRouteScheduleRecord", method = RequestMethod.POST)
 	public String addRoute(@ModelAttribute("routeSchedule") RouteSchedule routeSchedule, Model model, HttpServletRequest request, HttpServletResponse response){		
 		//Add Driver
-		RouteSchedule routeScheduleExist=this.routeScheduleService.getRouteScheduleDetailsById(String.valueOf(routeSchedule.getRouteName()));
+		RouteSchedule routeScheduleExist=this.routeScheduleService.getRouteScheduleDetailsById(routeSchedule.getId());
 		if(routeScheduleExist==null){
-			List<LocationsForRoute> listOfLocationsForRoiute=new ArrayList<>();
-			int count=1;
-			
 			UserMaster currentUser=(UserMaster) request.getSession().getAttribute(Constant.CURRENT_USER);
 			routeSchedule.setCreatedby(currentUser.getUserName());
 			routeSchedule.setCreatedDate(new Date());
@@ -113,7 +100,6 @@ public class RouteScheludeController extends BaseController{
 				UserMaster currentUser=(UserMaster) request.getSession().getAttribute(Constant.CURRENT_USER);
 				routeScheduleExist.setModifiedby(currentUser.getUserName());
 				routeScheduleExist.setModifiedDate(new Date());
-				routeScheduleService.deleteVehicleSchedule(routeScheduleExist.getScheduleName());
 				routeScheduleService.updateRouteScheduleDetails(routeScheduleExist);	
 			addSuccessMessage("RouteSchedule details updated successfully.");
 			}else{
@@ -132,10 +118,8 @@ public class RouteScheludeController extends BaseController{
 	
 	@RequestMapping("/RemoveRouteScheduleRecord")
     public String removeRouteSchedule(@RequestParam("id") String routeName, Model model, HttpServletRequest request, HttpServletResponse response){
-		
-		routeScheduleService.deleteVehicleSchedule(routeName);
-		
-		routeScheduleService.removeRouteScheduleDetails(routeName);
+		Integer routeId= Integer.parseInt(routeName);
+		routeScheduleService.removeRouteScheduleDetails(routeId);
 	     addSuccessMessage("RouteSchedule details removed successfully.");
 	        addSuccessOrErrorMessageToModel(model);
 			

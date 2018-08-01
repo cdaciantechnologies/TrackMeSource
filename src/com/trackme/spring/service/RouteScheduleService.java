@@ -8,10 +8,9 @@ public interface RouteScheduleService {
 	public void addRouteScheduleDetails(RouteSchedule routeSchedule);
 	public void updateRouteScheduleDetails(RouteSchedule routeSchedule);
 	public List<RouteSchedule> listRouteScheduleDetails();
-	public RouteSchedule getRouteScheduleDetailsById(String routeScheduleId);
-	public void removeRouteScheduleDetails(String routeScheduleId);
+	public RouteSchedule getRouteScheduleDetailsById(Integer routeScheduleId);
+	public void removeRouteScheduleDetails(Integer routeId);
 	
-	public void deleteVehicleSchedule(String id);
 	public List<RouteSchedule>  listCurrentActiveSchedule();
 
 }

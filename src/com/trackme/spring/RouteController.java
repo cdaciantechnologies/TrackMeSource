@@ -99,12 +99,12 @@ private RouteService routeService;
 			int count=1;
 			int index=0;
 			for(String location:routeMaster.getLocations()){
-				boolean notification= routeMaster.getNotifications()[index];
+				//boolean notification= routeMaster.getNotifications()[index];
 				LocationsForRoute locationForRoute = new LocationsForRoute();
 				Location locationMaster=locationService.getLocationById(location);
 				locationForRoute.setRoute(routeMaster);
 				locationForRoute.setLocation(locationMaster);
-				locationForRoute.setNotification(notification);
+				//locationForRoute.setNotification(notification);
 				locationForRoute.setSequence(count);
 				listOfLocationsForRoiute.add(locationForRoute);
 				index++;

@@ -52,3 +52,21 @@ ALTER TABLE public.route
   
   ALTER TABLE public.locationsforroute
   ADD COLUMN notification boolean NOT NULL DEFAULT true;
+  
+  
+delete from routeschedule
+  ALTER TABLE public.routeschedule
+  DROP COLUMN routename;
+ALTER TABLE public.routeschedule
+  ADD COLUMN id integer NOT NULL;
+ALTER TABLE public.routeschedule
+  ADD COLUMN routeid integer NOT NULL;
+ALTER TABLE public.routeschedule
+  DROP CONSTRAINT routeschedule_pk;
+ALTER TABLE public.routeschedule
+  ADD CONSTRAINT "routeSchedule_PK" PRIMARY KEY (id);
+ALTER TABLE public.routeschedule
+  ADD CONSTRAINT "routeid_FK" FOREIGN KEY (routeid) REFERENCES public.route (id) ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+drop table routevehicle   
+  

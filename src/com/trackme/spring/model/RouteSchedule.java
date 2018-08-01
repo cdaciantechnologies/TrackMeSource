@@ -13,10 +13,13 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,6 +36,10 @@ import com.trackme.constants.Constant;
 public class RouteSchedule
 {
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "id")
+  private int id;
+  
   @Column(name="schedulename")		
   private String scheduleName;
   
@@ -48,8 +55,9 @@ public class RouteSchedule
   @Transient
 private String endTime;
   
-  @Column(name="routename")
-  private String routeName;
+  @OneToOne
+  @JoinColumn(name="routeid")
+  private Route routeId;
   
   
   @Column(name="monday")
@@ -272,7 +280,23 @@ private String endTime;
     return this.modifiedby;
   }
   
-  public void setModifiedby(String modifiedby)
+  public int getId() {
+	return id;
+}
+
+public void setId(int id) {
+	this.id = id;
+}
+
+public Route getRouteId() {
+	return routeId;
+}
+
+public void setRouteId(Route routeId) {
+	this.routeId = routeId;
+}
+
+public void setModifiedby(String modifiedby)
   {
     this.modifiedby = modifiedby;
   }
@@ -329,19 +353,6 @@ private String endTime;
     this.endDate = endDate;
   }
   
- 
-  public String getRouteName()
-  {
-    return this.routeName;
-  }
-  
-  public void setRouteName(String routeName)
-  {
-    this.routeName = routeName;
-  }
-  
- 
-
 
 
 public String getVehicleNo() {

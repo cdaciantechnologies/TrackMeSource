@@ -63,13 +63,13 @@ public class RouteScheduleDAOImpl implements RouteScheduleDAO{
 	}
 
 	@Override
-	public RouteSchedule getRouteScheduleDetailsById(String routeScheduleId) {
+	public RouteSchedule getRouteScheduleDetailsById(Integer routeScheduleId) {
 		try{
 			Session session = this.sessionFactory.getCurrentSession();
 			
-			RouteSchedule route = (RouteSchedule) session.load(RouteSchedule.class, routeScheduleId);
-			logger.info("routeDetailsId loaded successfully, routeDetailsId details="+route);
-			return route;
+			RouteSchedule routeSchedule = (RouteSchedule) session.load(RouteSchedule.class, routeScheduleId);
+			logger.info("routeDetailsId loaded successfully, routeDetailsId details="+routeSchedule);
+			return routeSchedule;
 			}catch(Exception e){
 				logger.equals(e.getMessage());
 			}
@@ -77,21 +77,14 @@ public class RouteScheduleDAOImpl implements RouteScheduleDAO{
 	}
 
 	@Override
-	public void removeRouteScheduleDetails(String routeScheduleId) {
+	public void removeRouteScheduleDetails(Integer routeId) {
 		Session session = this.sessionFactory.getCurrentSession();
-		RouteSchedule p = (RouteSchedule) session.load(RouteSchedule.class, routeScheduleId);
+		RouteSchedule p = (RouteSchedule) session.load(RouteSchedule.class, routeId);
 		if(null != p){
 			session.delete(p);
 		}
 		logger.info("RouteSchedule deleted successfully, RouteSchedule details="+p);
 		
-	}
-
-	
-	@Override
-	public void deleteVehicleSchedule(String id) {
-		String query = "delete from routevehicle where scheduleName= '"+id+"' ";
-		jdbcTemplate.execute(query);
 	}
 
 	

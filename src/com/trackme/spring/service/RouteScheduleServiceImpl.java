@@ -42,21 +42,16 @@ public class RouteScheduleServiceImpl implements RouteScheduleService{
 
 	@Override
 	@Transactional
-	public RouteSchedule getRouteScheduleDetailsById(String routeScheduleId) {
+	public RouteSchedule getRouteScheduleDetailsById(Integer routeScheduleId) {
 		return routeScheduleDAO.getRouteScheduleDetailsById(routeScheduleId);
 	}
 
 	@Override
 	@Transactional
-	public void removeRouteScheduleDetails(String routeScheduleId) {
-	RouteSchedule routeSchedule = routeScheduleDAO.getRouteScheduleDetailsById(routeScheduleId);
+	public void removeRouteScheduleDetails(Integer routeId) {
+	RouteSchedule routeSchedule = routeScheduleDAO.getRouteScheduleDetailsById(routeId);
 			routeSchedule.setStatus(Constant.STATUS_INACTIVE);
 	routeScheduleDAO.updateRouteScheduleDetails(routeSchedule);
-	}
-
-	@Override
-	public void deleteVehicleSchedule(String id) {
-		routeScheduleDAO.deleteVehicleSchedule(id);
 	}
 
 	@Override
