@@ -55,9 +55,10 @@ public class RouteScheduleServiceImpl implements RouteScheduleService{
 	}
 
 	@Override
+	@Transactional
 	public List<RouteSchedule> listCurrentActiveSchedule() {
 		
-		List<RouteSchedule> routeSchedules= listRouteScheduleDetails();
+		List<RouteSchedule> routeSchedules=routeScheduleDAO.listRouteScheduleDetails();
 		List<RouteSchedule> routeActiveSchedules= new ArrayList<>();
 		if(routeSchedules !=null){
 		Iterator<RouteSchedule> iter= 	routeSchedules.iterator()  ;
@@ -77,7 +78,7 @@ public class RouteScheduleServiceImpl implements RouteScheduleService{
 		
 		Date fromDate= routeSchedule.getStartDate();
 		Date toDate= routeSchedule.getEndDate();
-		if(!(fromDate.after(date) && date.before(toDate))) return false;
+		if(!(fromDate.before(date) && date.before(toDate))) return false;
 		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 		switch (dayOfWeek){
 			case 1 :if(routeSchedule.isSunday())break;	else return false;

@@ -157,7 +157,7 @@ public class MapLatlngDAOImpl implements MapLatlngDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		StringBuffer strBuf= new StringBuffer();
 		strBuf.append("select gsm1.latitude as lat, gsm1.longitude as long, gsm1.datetimedate+ gsm1.datetime as locatioTime"
-				+ "from gsmstatus  gsm1 " );
+				+ " from gsmstatus  gsm1 " );
 		if(vehicleNo !=null && vehicleNo !="" ){
 			strBuf.append(" join vehiclemaster vm on ( gsm1.unitno= vm.unitno and vm.vehicleno = '"+vehicleNo +"') ");
 		}

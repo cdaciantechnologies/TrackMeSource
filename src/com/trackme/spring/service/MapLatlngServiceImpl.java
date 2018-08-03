@@ -1,6 +1,7 @@
 package com.trackme.spring.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,5 +59,11 @@ public class MapLatlngServiceImpl implements MapLatlngService {
 	
 	private double rad2deg(double rad) {
 		return (rad * 180 / Math.PI);
+	}
+
+	@Override
+	@Transactional
+	public Map<String, Object> getCurrentLocationOfVehicle(String vehicleNo) {
+		return mapLatlngDAO.getCurrentLocationOfVehicle(vehicleNo) ;
 	}
 }
