@@ -98,3 +98,18 @@ ALTER TABLE public.student
   ADD CONSTRAINT "pickuplocation_FK" FOREIGN KEY (pickuplocation) REFERENCES public.location (id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE public.student
   ADD CONSTRAINT "droplocation_FK" FOREIGN KEY (droplocation) REFERENCES public.location (id) ON UPDATE NO ACTION ON DELETE NO ACTION;
+  
+CREATE TABLE public.vehicleroutetracking
+(
+   routescheduleid integer, 
+   vehicleno text, 
+   locationid integer, 
+   intime text, 
+   inreadstatus boolean, 
+   outtime text, 
+   outreadstatus boolean
+) 
+WITH (
+  OIDS = FALSE
+)
+;

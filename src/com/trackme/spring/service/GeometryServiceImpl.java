@@ -32,6 +32,9 @@ public class GeometryServiceImpl {
 	
 	@Autowired
 	MapLatlngService mapLatlngService;
+	
+	@Autowired 
+	RouteNotificationServiceImpl routeNotificationServiceImpl;
 	//getListOfActiveSchedules
 	void test(){
 	List<RouteSchedule> routes=	routeScheduleService.listCurrentActiveSchedule(); 
@@ -45,10 +48,33 @@ public class GeometryServiceImpl {
 		Iterator<LocationsForRoute> lrIter= locationsForRoutes.iterator();
 		while(lrIter.hasNext()){
 			LocationsForRoute locationsForRoute= lrIter.next();
-			System.out.println("sdfsdf ****** in "+ CheckPointLocation(locationsForRoute.getLocation().getGeometry(),currentLocation));
+				if (!routeNotificationServiceImpl.checkVehicleTrakEntry(routeSchedule.getId(),
+						locationsForRoute.getLocation().getId(), routeSchedule.getVehicleNo())){
+					if(CheckPointLocation(locationsForRoute.getLocation().getGeometry(),currentLocation)){
+					String indatetime="";
+					String outdatetime="";
+					if(currentLocation.get("locationtime")!=null)
+						indatetime= currentLocation.get("locationtime").toString();
+					routeNotificationServiceImpl.insertIntoVehRouteTracking(routeSchedule.getId(), 
+							locationsForRoute.getLocation().getId(), routeSchedule.getVehicleNo(), indatetime
+							, outdatetime, false, false);
+						}
+				}else if (routeNotificationServiceImpl.checkVehicleTrakEntryForOnlyIn(routeSchedule.getId(),
+						locationsForRoute.getLocation().getId(), routeSchedule.getVehicleNo())){
+					if(!CheckPointLocation(locationsForRoute.getLocation().getGeometry(),currentLocation)){
+						String outdatetime="NA";
+						if(currentLocation.get("locationtime")!=null)
+							outdatetime= currentLocation.get("locationtime").toString();
+						routeNotificationServiceImpl.updateVehRouteTrackingOuttime(routeSchedule.getId(), 
+								locationsForRoute.getLocation().getId(), routeSchedule.getVehicleNo()
+								, outdatetime);
+							}
+					
+				}
+			
 		}
 	}
-	
+	  
 	}
 	
 	public boolean CheckPointLocation(Geometry geam, Map<String,Object> currentLocation ){
@@ -78,7 +104,11 @@ System.out.println("I**************Inside " +point.within(polygon));
 	    return point.within(polygon);
 	
 	*/
-		test();
+		try{
+		test();}
+		catch(Exception e){
+			System.out.println("error::::"+e.getMessage() );
+		}
 		return true;
 		}
 	
