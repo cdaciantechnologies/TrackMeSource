@@ -69,7 +69,7 @@
                                   
                                     <select name="location" id="location" class="form-control">
                                     <c:forEach var="location" items="${locations}">
-                                     <option value="${location.id }">${location.locationName }</option>
+                                     <option value="${location.id }">${location.locationDescription }</option>
                                     </c:forEach>
                                        
                                     </select>
@@ -77,7 +77,7 @@
                                 <div class="form-group col-sm-4">
                                        <c:if test="${routeMaster.editFlag==true }">
 										<c:forEach var="locatn" items="${routeMaster.locationsForRoute}">
-									 <input type="hidden" name="locationsOfRoute" id="locationsOfRoute" value="${locatn.location.locationName }" />
+									 <input type="hidden" name="locationsOfRoute" id="locationsOfRoute" value="${locatn.location.locationDescription }" />
 									 <input type="hidden" name="locationsOfRouteId" id="locationsOfRouteId" value="${locatn.location.id }" />
 									   <input type= "hidden" name="hiddenNotifications" id ="hiddenNotifications" value = "${locatn.notification}">
 									</c:forEach>

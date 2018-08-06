@@ -144,8 +144,8 @@
                        {data: "studentName"},
                        {data: "pickupRouteSchedule.scheduleName"},
                        {data: "dropRouteSchedule.scheduleName"},
-                       {data: "pickUpLocation.locationName"},
-                       {data: "dropLocation.locationName"},
+                       {data: "pickUpLocation.locationDescription"},
+                       {data: "dropLocation.locationDescription"},
                    
                        {data: "createdBy"},
                        {data: "createdOnShow"},

@@ -126,14 +126,14 @@
 														<div class="form-group col-sm-6">
 								<label>Pickup Location:</label>
 								 <form:select class="form-control" required="true" path="pickUpLocation.id" items="${locations}" 
-							 		itemLabel="locationName" itemValue="id"></form:select>
+							 		itemLabel="locationDescription" itemValue="id"></form:select>
 
 							</div>
 
 														<div class="form-group col-sm-6">
 								<label>Drop Location:</label>
 									 <form:select class="form-control" required="true" path="dropLocation.id" items="${locations}" 
-							 		itemLabel="locationName" itemValue="id"></form:select>
+							 		itemLabel="locationDescription" itemValue="id"></form:select>
 
 							</div>
 
