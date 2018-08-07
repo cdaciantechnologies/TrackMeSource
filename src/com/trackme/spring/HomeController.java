@@ -202,4 +202,32 @@ public class HomeController {
 	public String redirectOnHelpPage(HttpServletRequest request, Model model){
 		return "help";
 	}
+	
+	@RequestMapping(value = "/getVehicleInfoForParents", method = RequestMethod.GET)
+	public String getVehicleInfoForParents(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
+		logger.info("getVehicleInfoForParents", locale);
+	Principal principal=	request.getUserPrincipal();
+		if (principal != null) {
+			String userName = principal.getName();
+			HttpSession session = request.getSession();
+			UserMaster currentUser = (UserMaster) session.getAttribute(Constant.CURRENT_USER);
+			if (currentUser == null) {
+				currentUser = userMasterService.getUserMasterById(userName);
+				session.setAttribute(Constant.CURRENT_USER, currentUser);
+			}
+		}
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
+				DateFormat.LONG, locale);
+		String formattedDate = dateFormat.format(date);
+		String allVehicleLocationJson = getAllVehicleLiveDataJSON(userMasterService.getCurrentUserUsingPrinciple(request));
+		if(allVehicleLocationJson == null){
+			model.addAttribute("errorMsg", "No data found.");
+		}
+		// System.out.println("JSON=== "+allVehicleLocationJson);
+		model.addAttribute("serverTime", formattedDate);
+		model.addAttribute("allVehicleLocation", allVehicleLocationJson);
+		model.addAttribute("VehicleSearchForm",new VehicleSearchForm());
+		return LANDING_PAGE;
+	}
 }

@@ -87,25 +87,11 @@ public class GeometryServiceImpl {
 		return point.within(polygon);
 	}
 	public boolean  checkPointInsideGeometry(){
-		/*final GeometryFactory gf = new GeometryFactory();
-
-	    final ArrayList<Coordinate> points = new ArrayList<Coordinate>();
-	    points.add(new Coordinate(-10, -10));
-	    points.add(new Coordinate(-10, 10));
-	    points.add(new Coordinate(10, 10));
-	    points.add(new Coordinate(10, -10));
-	    points.add(new Coordinate(-10, -10));
-	    final Polygon polygon = gf.createPolygon(new LinearRing(new CoordinateArraySequence(points
-	        .toArray(new Coordinate[points.size()])), gf), null);
-
-	    final Coordinate coord = new Coordinate(0, 0);
-	    final Point point = gf.createPoint(coord);
-System.out.println("I**************Inside " +point.within(polygon));
-	    return point.within(polygon);
-	
-	*/
+		
 		try{
-		test();}
+		test();
+		routeNotificationServiceImpl.getGeoFenceInDetails();
+		}
 		catch(Exception e){
 			System.out.println("error::::"+e.getMessage() );
 		}
