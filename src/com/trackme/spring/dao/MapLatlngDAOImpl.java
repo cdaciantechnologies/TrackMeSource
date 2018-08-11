@@ -71,10 +71,10 @@ public class MapLatlngDAOImpl implements MapLatlngDAO {
 		if(userMaster != null && userMaster.getRoleMaster() != null && (userMaster.getRoleMaster().getRole() != null && !userMaster.getRoleMaster().getRole().isEmpty())){
 			if(userMaster.getRoleMaster().getRole().equalsIgnoreCase(Constant.ROLE_PARENT)){
 				strBuf.append(" and vm.vehicleno in ( ");
-				strBuf.append(" select vehicleno from routevehicle  where schedulename in (select result from ( ");
-				strBuf.append(" select schedulename as result from student  where (mothermobileno = '"+userMaster.getUserName().trim()+"' or fathermobileno = '"+userMaster.getUserName().trim()+"' or gaurdianmobileno = '"+userMaster.getUserName().trim()+"') ");  
+				strBuf.append(" select vehicleno from routeschedule where id in (select result from ( ");
+				strBuf.append(" select pickuprouteschedule as result from student  where (mothermobileno = '"+userMaster.getUserName().trim()+"' or fathermobileno = '"+userMaster.getUserName().trim()+"' or gaurdianmobileno = '"+userMaster.getUserName().trim()+"') ");  
 				strBuf.append(" union all ");
-				strBuf.append(" select dropschedulename as result from student  where (mothermobileno = '"+userMaster.getUserName().trim()+"' or fathermobileno = '"+userMaster.getUserName().trim()+"' or gaurdianmobileno = '"+userMaster.getUserName().trim()+"') "); 
+				strBuf.append(" select droprouteschedule as result from student  where (mothermobileno = '"+userMaster.getUserName().trim()+"' or fathermobileno = '"+userMaster.getUserName().trim()+"' or gaurdianmobileno = '"+userMaster.getUserName().trim()+"') "); 
 				strBuf.append(" ) as resultAll) ");
 				strBuf.append(" ) ");
 			}else if(!userMaster.getRoleMaster().getRole().equalsIgnoreCase(Constant.ROLE_SUPERUSER)){
