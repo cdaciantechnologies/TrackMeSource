@@ -12,6 +12,6 @@ public interface StudentService {
 	public Student getStudentById(String id);
 	public void removeStudent(String id);
 
-	public String uploadStudentRecord(String filepath,String schedule,String dropRouteScheduleId);
+	public String uploadStudentRecord(String filepath);
 	
 }

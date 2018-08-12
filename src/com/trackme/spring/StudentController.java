@@ -39,6 +39,20 @@ import com.trackme.spring.service.StudentService;
 @Controller
 public class StudentController extends BaseController{
 
+	
+static String QueryToCopy="insert into student (StudentId ,StudentName ,STD ,Division ,FatherName ,FatherMobileNo "+
+ " ,MotherName ,MotherMobileNo ,GaurdianName ,GaurdianMobileNo ,PickupLocation "+
+ " ,DropLocation ,pickuprouteschedule,droprouteschedule ,status,createddate,createdby,modifieddate,modifiedby ) "+
+ " select StudentId ,StudentName ,STD ,Division ,FatherName ,FatherMobileNo "+
+ " ,MotherName ,MotherMobileNo ,GaurdianName ,GaurdianMobileNo , "+
+ " (select lc1.id  from location lc1 where lc1.status= 'Active' and  lc1.locationdescription= PickupLocation  FETCH FIRST 1 ROWS ONLY) as PickupLocation, "+ 
+ " (select lc2.id  from location lc2 where lc2.status= 'Active' and  lc2.locationdescription= DropLocation  FETCH FIRST 1 ROWS ONLY) as DropLocation , "+
+ " (select rc1.id from routeschedule rc1 where rc1.schedulename= ScheduleName and rc1.status='Active'  FETCH FIRST 1 ROWS ONLY) as pickuprouteschedule, "+
+ " (select rc2.id from routeschedule rc2 where rc2.schedulename= dropschedulename and rc2.status='Active' FETCH FIRST 1 ROWS ONLY) as droprouteschedule, "+
+ " status,createddate,createdby,modifieddate,modifiedby from studentcopy ";
+
+static String QueryToDelete="delete from studentcopy";
+
 private StudentService studentService;
 
 @Autowired(required=true)
@@ -152,8 +166,7 @@ private RouteScheduleService  routeScheduleService   ;
  
 	
 	@RequestMapping(value="/uploadStudentsRecord" , method = RequestMethod.POST)
-    public String uploadStudent(@RequestParam("routeSchedule") String  routeSchedule,@RequestParam("dropRouteScheduleId") String  dropRouteScheduleId,
-    		  @RequestParam("studentfile") MultipartFile file , Model model, HttpServletRequest request, HttpServletResponse response){
+    public String uploadStudent(   @RequestParam("studentfile") MultipartFile file , Model model, HttpServletRequest request, HttpServletResponse response){
 		   	
 	       	
 		        String fileName="";
@@ -178,7 +191,7 @@ private RouteScheduleService  routeScheduleService   ;
 
 						filePath = dir+File.separator+fileName;
 						
-						String s =studentService.uploadStudentRecord(filePath,routeSchedule,dropRouteScheduleId);
+						String s =studentService.uploadStudentRecord(filePath);
 						if(s!=null)
 						  addSuccessMessage("Records inserted successfully.");
 						else

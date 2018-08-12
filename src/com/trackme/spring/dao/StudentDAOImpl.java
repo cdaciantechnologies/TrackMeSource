@@ -27,7 +27,21 @@ public class StudentDAOImpl implements StudentDAO {
 	private SessionFactory sessionFactory;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;  
+	private JdbcTemplate jdbcTemplate; 
+	
+	
+	static String QueryToCopy="insert into student (StudentId ,StudentName ,STD ,Division ,FatherName ,FatherMobileNo "+
+			 " ,MotherName ,MotherMobileNo ,GaurdianName ,GaurdianMobileNo ,PickupLocation "+
+			 " ,DropLocation ,pickuprouteschedule,droprouteschedule ,status,createddate,createdby,modifieddate,modifiedby ) "+
+			 " select StudentId ,StudentName ,STD ,Division ,FatherName ,FatherMobileNo "+
+			 " ,MotherName ,MotherMobileNo ,GaurdianName ,GaurdianMobileNo , "+
+			 " (select lc1.id  from location lc1 where lc1.status= 'Active' and  lc1.locationdescription= PickupLocation  FETCH FIRST 1 ROWS ONLY) as PickupLocation, "+ 
+			 " (select lc2.id  from location lc2 where lc2.status= 'Active' and  lc2.locationdescription= DropLocation  FETCH FIRST 1 ROWS ONLY) as DropLocation , "+
+			 " (select rc1.id from routeschedule rc1 where rc1.schedulename= ScheduleName and rc1.status='Active'  FETCH FIRST 1 ROWS ONLY) as pickuprouteschedule, "+
+			 " (select rc2.id from routeschedule rc2 where rc2.schedulename= dropschedulename and rc2.status='Active' FETCH FIRST 1 ROWS ONLY) as droprouteschedule, "+
+			 " status,createddate,createdby,modifieddate,modifiedby from studentcopy ";
+
+	static String QueryToDelete="delete from studentcopy";
 
 	
 	public void setSessionFactory(SessionFactory sf){
@@ -96,7 +110,7 @@ public class StudentDAOImpl implements StudentDAO {
 		Integer total=null;
 		try{			
 		StringBuilder queryStr=new StringBuilder();
-		queryStr.append("copy student("+
+		queryStr.append("copy studentcopy("+
 "StudentId ,StudentName ,STD ,Division ,FatherName "+
 ",FatherMobileNo ,MotherName ,MotherMobileNo ,GaurdianName "+
  ",GaurdianMobileNo ,PickupLocation ,DropLocation ,ScheduleName,dropschedulename ,status,createddate,"+
@@ -106,7 +120,10 @@ public class StudentDAOImpl implements StudentDAO {
 		//org.hibernate.Query query =session.createQuery(queryStr.toString());
 	//total=query.executeUpdate();
 		
-	total = jdbcTemplate.update(queryStr.toString()) ;
+	jdbcTemplate.update(queryStr.toString()) ;
+	
+	total =  jdbcTemplate.update(QueryToCopy) ;
+	jdbcTemplate.update(QueryToDelete) ;
 	
 		return total.toString();
 		}catch(Exception e){
@@ -115,45 +132,6 @@ public class StudentDAOImpl implements StudentDAO {
 	}
 	
 	
-	@Override
-	public String uploadStudentRecordWithSchedule(String filepath , String schedule,String dropRouteScheduleId) {
-		Integer total=null;
-		try{
-			
-			StringBuilder queryStr2=new StringBuilder();
-			queryStr2.append("delete from studentexcel ");
-
-			jdbcTemplate.update(queryStr2.toString()) ;
-		
-			StringBuilder queryStr1=new StringBuilder();
-			queryStr1.append("copy studentexcel("+
-				"StudentId ,StudentName ,STD ,Division ,FatherName "+
-				",FatherMobileNo ,MotherName ,MotherMobileNo ,GaurdianName "+
-				",GaurdianMobileNo ,PickupLocation ,DropLocation ,ScheduleName,dropschedulename ,status,createddate,"+
-				"createdby,modifieddate,modifiedby "+
-				") FROM '"+filepath+"' WITH CSV HEADER; ");
-		
-			total = jdbcTemplate.update(queryStr1.toString()) ;
-			StringBuilder query =new StringBuilder();
-			query.append("insert into student(StudentId ,StudentName ,STD ,Division ,FatherName  "+
-					",FatherMobileNo ,MotherName ,MotherMobileNo ,GaurdianName  "+
-					" ,GaurdianMobileNo ,PickupLocation ,DropLocation ,ScheduleName,dropschedulename ,status,createddate, "+
-					" createdby,modifieddate,modifiedby )  "+
-					"select  StudentId ,StudentName ,STD ,Division ,FatherName  "+
-					",FatherMobileNo ,MotherName ,MotherMobileNo ,GaurdianName  "+
-					" ,GaurdianMobileNo ,PickupLocation ,DropLocation ,'"+schedule+"' as ScheduleName, '"+dropRouteScheduleId+"' as dropschedulename ,status,createddate, "+
-					" createdby,modifieddate,modifiedby  from  studentexcel ");
-
-			total =jdbcTemplate.update(query.toString()) ;
-			
-			StringBuilder queryStr3=new StringBuilder();
-			queryStr2.append("delete from studentexcel ");
-			jdbcTemplate.update(queryStr3.toString()) ;
-			return total.toString();
-		}catch(Exception e){
-			return null;
-		}
-	}
-
+	
 
 }

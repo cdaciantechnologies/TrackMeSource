@@ -12,5 +12,4 @@ public interface StudentDAO {
 	public Student getStudentById(String id);
 	public void removeStudent(String id);
 	public String uploadStudentRecord(String filepath);
-	public String uploadStudentRecordWithSchedule(String filepath, String schedule,String dropRouteScheduleId);
 }
