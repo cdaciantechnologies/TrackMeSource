@@ -15,4 +15,5 @@ public interface UserMasterService {
 	public void removeUserMaster(String userName);
 	public String updateNoticationId(String userName, String notificationId);
 	public UserMaster getCurrentUserUsingPrinciple(HttpServletRequest request);
+	public List getRouteInfoForParents(String username);
 }

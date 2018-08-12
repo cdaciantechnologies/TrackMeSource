@@ -1,12 +1,14 @@
 package com.trackme.spring.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.trackme.constants.Constant;
@@ -20,6 +22,9 @@ public class UserMasterDAOImpl implements UserMasterDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate; 
 	
 	
 	public void setSessionFactory(SessionFactory sf){
@@ -71,6 +76,40 @@ public class UserMasterDAOImpl implements UserMasterDAO {
 		}
 		logger.info("UserMaster deleted successfully, UserMaster details="+p);
 	}
+	
+	@Override
+	public List getRouteInfoForParents(String username) {
 
+		List routeInfo = null;
+
+		String query = "select s.studentid as studentId, s.studentname as studentName," + 
+				"	pickloc.locationdescription as pickupLocation, droploc.locationdescription as dropLocation," + 
+				"	pr.routename as pickupRoute, dr.routename as dropRoute," + 
+				"	pickdm.drivername as pickupDriverName, pickdm.contact1 as pickupDriverContact," + 
+				"	dropdm.drivername as dropDriverName, dropdm.contact1 as dropDriverContact, " + 
+				"	pickvm.vehicleno as pickupVehicleNo," + 
+				"	dropvm.vehicleno as dropVehicleNo," + 
+				"	pickrs.starttime as pickupScheduleStarttime," + 
+				"	droprs.starttime as dropScheduleStarttime " + 
+				" 	from student s " + 
+				"	join location pickloc on s.pickuplocation = pickloc.id " + 
+				"	join location droploc on s.droplocation = droploc.id" + 
+				"	join routeschedule pickrs on s.pickuprouteschedule = pickrs.id " + 
+				"	join routeschedule droprs on s.pickuprouteschedule = droprs.id " + 
+				"	join route pr on pickrs.routeid = pr.id" + 
+				"	join route dr on droprs.routeid = dr.id" + 
+				"	join vehiclemaster pickvm on pickrs.vehicleno = pickvm.vehicleno " + 
+				"	join vehiclemaster dropvm on droprs.vehicleno = dropvm.vehicleno " + 
+				"	join driverconf pickdc on pickrs.vehicleno = pickdc.vehicleno" + 
+				"	join driverconf dropdc on droprs.vehicleno = dropdc.vehicleno" + 
+				"	join drivermaster pickdm on pickdc.driverid = pickdm.id" + 
+				"	join drivermaster dropdm on dropdc .driverid = dropdm.id"+
+				"	where s.fathermobileno= '"+ username +"'"+" or s.mothermobileno = '" + username + "'" +" or s.gaurdianmobileno = '" + username  + "'";
+
+		routeInfo = jdbcTemplate.queryForList(query);
+
+		return routeInfo;
+
+	}
 	
 }

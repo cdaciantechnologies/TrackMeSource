@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -262,5 +265,29 @@ public class ApiController {
 		return userMasterService.updateNoticationId(user.getUserName(), notificationId);	
 		}
 		return "updated";
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@JsonView(Views.Public.class)
+	@RequestMapping(value = "/api/getRouteInfoForParents", method = RequestMethod.GET)
+	public AjaxResponseBody getRouteInfoForParents(Locale locale, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		logger.info("getRouteInfoForParents", locale);
+		AjaxResponseBody result = new AjaxResponseBody();
+		Principal principal = request.getUserPrincipal();
+		if (principal != null) {
+			String userName = principal.getName();
+			HttpSession session = request.getSession();
+			UserMaster currentUser = (UserMaster) session.getAttribute(Constant.CURRENT_USER);
+			if (currentUser == null) {
+				currentUser = userMasterService.getUserMasterById(userName);
+				session.setAttribute(Constant.CURRENT_USER, currentUser);
+			}
+			List routeInfo = userMasterService.getRouteInfoForParents(userName);
+			result.setCode("200");
+			result.setMsg("success");
+			result.setResult(routeInfo);
+		}
+		return result;
 	}
 }

@@ -105,5 +105,11 @@ public class UserMasterServiceImpl implements UserMasterService {
 	public UserMaster getCurrentUserUsingPrinciple(HttpServletRequest request) {
 		return getUserMasterById(request.getUserPrincipal().getName());
 	}
+	
+	@Override
+	@Transactional
+	public List getRouteInfoForParents(String username) {
+		return UserMasterDAO.getRouteInfoForParents(username);
+	}
 
 }
