@@ -111,5 +111,14 @@ public class UserMasterServiceImpl implements UserMasterService {
 	public List getRouteInfoForParents(String username) {
 		return UserMasterDAO.getRouteInfoForParents(username);
 	}
-
+	@Override
+	@Transactional
+	public List getPickUpRouteInfoForParents(String username) {
+		return UserMasterDAO.getPickUpRouteInfoForParents(username);
+	}
+	@Override
+	@Transactional
+	public List getDropRouteInfoForParents(String username) {
+		return UserMasterDAO.getDropRouteInfoForParents(username);
+	}
 }

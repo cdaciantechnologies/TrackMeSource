@@ -290,4 +290,53 @@ public class ApiController {
 		}
 		return result;
 	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@JsonView(Views.Public.class)
+	@RequestMapping(value = "/api/getPickupRouteInfoForParents", method = RequestMethod.GET)
+	public AjaxResponseBody getPickUpRouteInfoForParents(Locale locale, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		logger.info("getRouteInfoForParents", locale);
+		AjaxResponseBody result = new AjaxResponseBody();
+		Principal principal = request.getUserPrincipal();
+		if (principal != null) {
+			String userName = principal.getName();
+			HttpSession session = request.getSession();
+			UserMaster currentUser = (UserMaster) session.getAttribute(Constant.CURRENT_USER);
+			if (currentUser == null) {
+				currentUser = userMasterService.getUserMasterById(userName);
+				session.setAttribute(Constant.CURRENT_USER, currentUser);
+			}
+			List routeInfo = userMasterService.getPickUpRouteInfoForParents(userName);
+			result.setCode("200");
+			result.setMsg("success");
+			result.setResult(routeInfo);
+		}
+		return result;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@JsonView(Views.Public.class)
+	@RequestMapping(value = "/api/getDropRouteInfoForParents", method = RequestMethod.GET)
+	public AjaxResponseBody getDropRouteInfoForParents(Locale locale, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		logger.info("getRouteInfoForParents", locale);
+		AjaxResponseBody result = new AjaxResponseBody();
+		Principal principal = request.getUserPrincipal();
+		if (principal != null) {
+			String userName = principal.getName();
+			HttpSession session = request.getSession();
+			UserMaster currentUser = (UserMaster) session.getAttribute(Constant.CURRENT_USER);
+			if (currentUser == null) {
+				currentUser = userMasterService.getUserMasterById(userName);
+				session.setAttribute(Constant.CURRENT_USER, currentUser);
+			}
+			List routeInfo = userMasterService.getDropRouteInfoForParents(userName);
+			result.setCode("200");
+			result.setMsg("success");
+			result.setResult(routeInfo);
+		}
+		return result;
+	}
+	
 }

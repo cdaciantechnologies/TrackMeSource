@@ -44,12 +44,12 @@ public void pushNotification(String deviceKey, String title, String body,String 
 	  HttpClient client = HttpClientBuilder.create().build();
 	  HttpPost post = new HttpPost("https://fcm.googleapis.com/fcm/send");
 	  post.setHeader("Content-type", "application/json");
-	  post.setHeader("Authorization", "key="+"AAAANHrAb_w:APA91bGGnsQinoYV5sBBfzkvUshRMtsgxl6-vpEY-lWPFwP7l_Y-tpkfQdqS0hFAfyzJQsSgnS_2T4_p8RgGq5mIc0y3F8P4m_xzUciLZeVVztFLhTxiL2k4QvFSYVVERBdU22knuJ6K");
+	  post.setHeader("Authorization", "key=AAAANHrAb_w:APA91bGGnsQinoYV5sBBfzkvUshRMtsgxl6-vpEY-lWPFwP7l_Y-tpkfQdqS0hFAfyzJQsSgnS_2T4_p8RgGq5mIc0y3F8P4m_xzUciLZeVVztFLhTxiL2k4QvFSYVVERBdU22knuJ6K");
 
 	  JSONObject message = new JSONObject();
 	  message.put("to", deviceKey);
 	  message.put("priority", "high");
-
+	  message.put("content_available" , true);
 	  JSONObject notification = new JSONObject();
 	  notification.put("title", title);
 	  notification.put("body", body);

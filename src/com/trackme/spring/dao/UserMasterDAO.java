@@ -12,4 +12,6 @@ public interface UserMasterDAO {
 	public UserMaster getUserMasterById(String userName);
 	public void removeUserMaster(String userName);
 	public List getRouteInfoForParents(String username);
+	public List getPickUpRouteInfoForParents(String username);
+	public List getDropRouteInfoForParents(String username);
 }

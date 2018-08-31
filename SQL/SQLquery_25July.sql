@@ -3,6 +3,9 @@ ALTER TABLE public.locationsforroute
 
 ALTER TABLE public.location
   DROP CONSTRAINT location_pk;
+ 
+ ALTER TABLE public.location
+  ADD COLUMN id integer NOT NULL; 
   
  ALTER TABLE public.location
   ADD CONSTRAINT location_pk PRIMARY KEY (id); 
@@ -113,3 +116,28 @@ WITH (
   OIDS = FALSE
 )
 ;
+
+
+
+select s.studentid as studentId, s.studentname as studentName,
+	pickloc.locationdescription as pickupLocation, droploc.locationdescription as dropLocation,
+	pr.routename as pickupRoute, dr.routename as dropRoute,
+	pickdm.drivername as pickupDriverName, pickdm.contact1 as pickupDriverContact,
+	dropdm.drivername as dropDriverName, dropdm.contact1 as dropDriverContact,
+	pickvm.vehicleno as pickupVehicleNo,
+	dropvm.vehicleno as dropVehicleNo,
+	pickrs.starttime as pickupScheduleStarttime,
+	droprs.starttime as dropScheduleStarttime
+ from student s 
+	join location pickloc on s.pickuplocation = pickloc.id
+	join location droploc on s.droplocation = droploc.id
+	join routeschedule pickrs on s.pickuprouteschedule = pickrs.id
+	join routeschedule droprs on s.pickuprouteschedule = droprs.id
+	join route pr on pickrs.routeid = pr.id
+	join route dr on droprs.routeid = dr.id
+	join vehiclemaster pickvm on pickrs.vehicleno = pickvm.vehicleno 
+	join vehiclemaster dropvm on droprs.vehicleno = dropvm.vehicleno 
+	join driverconf pickdc on pickrs.vehicleno = pickdc.vehicleno
+	join driverconf dropdc on droprs.vehicleno = dropdc.vehicleno
+	join drivermaster pickdm on pickdc.driverid = pickdm.id
+	join drivermaster dropdm on dropdc .driverid = dropdm.id

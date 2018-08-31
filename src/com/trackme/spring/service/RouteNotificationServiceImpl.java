@@ -203,7 +203,7 @@ public class RouteNotificationServiceImpl {
 				while (iter.hasNext()) {
 					Map user = iter.next();
 					 notificationId = (String) user.get("notificationid");
-					geofenceName = (String) user.get("location");
+					geofenceName = (String) user.get("locationdescription");
 					System.out.println("**********" + notificationId + body + geofenceName);
 					if (notificationId != null && notificationId != "") {
 						firebaseService.pushNotification(notificationId, body + geofenceName, title, "");

@@ -98,13 +98,61 @@ public class UserMasterDAOImpl implements UserMasterDAO {
 				"	join routeschedule droprs on s.pickuprouteschedule = droprs.id " + 
 				"	join route pr on pickrs.routeid = pr.id" + 
 				"	join route dr on droprs.routeid = dr.id" + 
-				"	join vehiclemaster pickvm on pickrs.vehicleno = pickvm.vehicleno " + 
-				"	join vehiclemaster dropvm on droprs.vehicleno = dropvm.vehicleno " + 
-				"	join driverconf pickdc on pickrs.vehicleno = pickdc.vehicleno" + 
-				"	join driverconf dropdc on droprs.vehicleno = dropdc.vehicleno" + 
-				"	join drivermaster pickdm on pickdc.driverid = pickdm.id" + 
-				"	join drivermaster dropdm on dropdc .driverid = dropdm.id"+
-				"	where s.fathermobileno= '"+ username +"'"+" or s.mothermobileno = '" + username + "'" +" or s.gaurdianmobileno = '" + username  + "'";
+				"	left join vehiclemaster pickvm on pickrs.vehicleno = pickvm.vehicleno " + 
+				"	left join vehiclemaster dropvm on droprs.vehicleno = dropvm.vehicleno " + 
+				"	left join driverconf pickdc on (pickdc.status='Active' and pickrs.vehicleno = pickdc.vehicleno)" + 
+				"	left join driverconf dropdc on (dropdc.status='Active' and droprs.vehicleno = dropdc.vehicleno )" + 
+				"	left join drivermaster pickdm on pickdc.driverid = pickdm.id" + 
+				"	left join drivermaster dropdm on dropdc .driverid = dropdm.id"+
+				"	where s.status='Active' and  s.fathermobileno= '"+ username +"'"+" or s.mothermobileno = '" + username + "'" +" or s.gaurdianmobileno = '" + username  + "'";
+
+		routeInfo = jdbcTemplate.queryForList(query);
+
+		return routeInfo;
+
+	}
+	
+	@Override
+	public List getPickUpRouteInfoForParents(String username) {
+
+		List routeInfo = null;
+
+		String query = 
+				" select s.studentid as studentId, s.studentname as studentName,	pickloc.locationdescription as pickupLocation, "+
+				" 	pr.routename as pickupRoute,	pickdm.drivername as pickupDriverName, pickdm.contact1 as pickupDriverContact,pickvm.vehicleno as pickupVehicleNo,	 "+
+				"  	pickrs.starttime as pickupScheduleStarttime ,	 "+
+				" 'Assistant Name' as assistantname,'999999999' as assistantno  "+
+				" 	from student s 	join location pickloc on s.pickuplocation = pickloc.id  "+
+				" 	join routeschedule pickrs on s.pickuprouteschedule = pickrs.id  "+
+				" 		join route pr on pickrs.routeid = pr.id	 "+
+				" 	left join vehiclemaster pickvm on pickrs.vehicleno = pickvm.vehicleno 	 "+
+				" 	left join driverconf pickdc on (pickdc.status='Active' and pickrs.vehicleno = pickdc.vehicleno)		 "+
+				" 	left join drivermaster pickdm on pickdc.driverid = pickdm.id   "+		
+				"	where s.status='Active' and  s.fathermobileno= '"+ username +"'"+" or s.mothermobileno = '" + username + "'" +" or s.gaurdianmobileno = '" + username  + "'";
+
+		routeInfo = jdbcTemplate.queryForList(query);
+
+		return routeInfo;
+
+	}
+	
+	
+	@Override
+	public List getDropRouteInfoForParents(String username) {
+
+		List routeInfo = null;
+
+		String query = 
+   "  select s.studentid as studentId, s.studentname as studentName,	 droploc.locationdescription as dropLocation ,dr.routename as dropRoute, "+
+   " 	dropdm.drivername as dropDriverName, dropdm.contact1 as dropDriverContact, dropvm.vehicleno as dropVehicleNo, droprs.starttime as dropScheduleStarttime , "+
+   " 		'Assistant Name' as assistantname,'999999999' as assistantno "+	
+   " 	from student s 		join location droploc on s.droplocation = droploc.id "+	
+   "        join routeschedule droprs on s.pickuprouteschedule = droprs.id  "+
+   " 		join route dr on droprs.routeid = dr.id	"+
+   " 			left join vehiclemaster dropvm on droprs.vehicleno = dropvm.vehicleno "+	
+   " 		left join driverconf dropdc on (dropdc.status='Active' and droprs.vehicleno = dropdc.vehicleno )	"+
+   " 			left join drivermaster dropdm on dropdc .driverid = dropdm.id	"+
+	 			"	where s.status='Active' and  s.fathermobileno= '"+ username +"'"+" or s.mothermobileno = '" + username + "'" +" or s.gaurdianmobileno = '" + username  + "'";
 
 		routeInfo = jdbcTemplate.queryForList(query);
 
