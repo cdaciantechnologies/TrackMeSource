@@ -1,6 +1,7 @@
 package com.trackme.spring.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -121,4 +122,15 @@ public class UserMasterServiceImpl implements UserMasterService {
 	public List getDropRouteInfoForParents(String username) {
 		return UserMasterDAO.getDropRouteInfoForParents(username);
 	}
+	
+	@Override
+	@Transactional
+	public String getDisplayNameForParent(String username) {
+		List<Map<String, Object>>  parentNameList= UserMasterDAO.getDisplayNameForParent(username);
+		String name= "";
+		if(parentNameList!=null && !parentNameList.isEmpty())
+			name=(String)parentNameList.get(0).get("name");
+		return name;
+	}
+	
 }

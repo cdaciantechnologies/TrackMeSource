@@ -113,7 +113,10 @@ private String endTime;
  @Temporal(TemporalType.TIMESTAMP)
   private Date endTimeSave;
   
- 
+  @Column(name="assistantname")
+  private String assistantName;
+  @Column(name="assistantno")
+  private String assistantNo;
 
 
 @Transient
@@ -498,6 +501,22 @@ public void setEndTime(String endTime) {
 		e.printStackTrace();
 	}
 	this.endTime = endTime;
+}
+
+public String getAssistantName() {
+	return assistantName;
+}
+
+public void setAssistantName(String assistantName) {
+	this.assistantName = assistantName;
+}
+
+public String getAssistantNo() {
+	return assistantNo;
+}
+
+public void setAssistantNo(String assistantNo) {
+	this.assistantNo = assistantNo;
 }
 
 

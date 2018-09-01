@@ -156,6 +156,18 @@
                                   
                                 </div>
                             </div>
+                            
+                            	<div class="form-group col-sm-6">
+								<label>Assitant Name. :</label>
+								<form:input path="assistantName" id="assistantName" class="form-control" />
+							</div>
+							
+							<div class="form-group col-sm-6">
+								<label>Assistant Mobile No. :</label>
+								<form:input path="assistantNo" id="assistantNo" class="form-control" />
+							</div>
+							
+                            
                                                     <br />
                              <div style="text-align: center">
                                <c:if test="${routeSchedule.editFlag==true }">

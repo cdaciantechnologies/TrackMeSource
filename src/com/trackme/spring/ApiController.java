@@ -32,6 +32,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.firebase.client.core.Constants;
 import com.trackme.constants.Constant;
 import com.trackme.spring.jsonview.Views;
 import com.trackme.spring.model.AjaxResponseBody;
@@ -261,10 +262,14 @@ public class ApiController {
 		Principal principal=request.getUserPrincipal();
 		String userName=principal.getName();
 		UserMaster user= userMasterService.getUserMasterById(userName);
-		if(user!=null){
-		return userMasterService.updateNoticationId(user.getUserName(), notificationId);	
-		}
-		return "updated";
+		if(user!=null && notificationId!=null && notificationId!="")
+			userMasterService.updateNoticationId(user.getUserName(), notificationId);
+		String name="";
+		if(user!=null && Constant.ROLE_PARENT.equals(user.getRoleMaster().getRole()));
+		  name=  userMasterService.getDisplayNameForParent(userName);
+		if(name!="")
+			return name;
+		return user.getUserName();
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

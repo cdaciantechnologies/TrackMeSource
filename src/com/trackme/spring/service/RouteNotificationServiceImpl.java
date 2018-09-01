@@ -186,11 +186,11 @@ public class RouteNotificationServiceImpl {
 		updateVehicleroutetrackingEnterDetails();
 		updateVehicleroutetrackingExitDetails();
 		deleteNotifiedVehicleroutetrackingDetails();
-		sendNotificationToList(generalEnterList,title,"School bus reached at ");
-		sendNotificationToList(pickUpEnterList,title,"School bus reached at your pickup location");
-		sendNotificationToList(dropEnterList,title,"School bus reached at your drop location ");
-		sendNotificationToList(pickupExitList,title,"School bus started from location ");
-		sendNotificationToList(dropExitList,title,"School bus started from location ");
+		sendNotificationToList(generalEnterList,title,"Your child's School Bus/Van has Reached ");
+		sendNotificationToList(pickUpEnterList,title,"Your child's school Bus/Van is arrived at your Pickup point!");
+		sendNotificationToList(dropEnterList,title,"SYour child's school Bus/Van is arrived at  your Drop point!");
+		sendNotificationToList(pickupExitList,title,"Your child's School Bus/Van has left from your Pickup Point!");
+		sendNotificationToList(dropExitList,title,"Your child's School Bus/Van is running on schedule");
 		
 		
 	}

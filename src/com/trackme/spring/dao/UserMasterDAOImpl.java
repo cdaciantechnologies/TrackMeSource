@@ -121,7 +121,7 @@ public class UserMasterDAOImpl implements UserMasterDAO {
 				" select s.studentid as studentId, s.studentname as studentName,	pickloc.locationdescription as pickupLocation, "+
 				" 	pr.routename as pickupRoute,	pickdm.drivername as pickupDriverName, pickdm.contact1 as pickupDriverContact,pickvm.vehicleno as pickupVehicleNo,	 "+
 				"  	pickrs.starttime as pickupScheduleStarttime ,	 "+
-				" 'Assistant Name' as assistantname,'999999999' as assistantno  "+
+				" pickrs.assistantname as assistantname,pickrs.assistantno as assistantno  "+
 				" 	from student s 	join location pickloc on s.pickuplocation = pickloc.id  "+
 				" 	join routeschedule pickrs on s.pickuprouteschedule = pickrs.id  "+
 				" 		join route pr on pickrs.routeid = pr.id	 "+
@@ -145,7 +145,7 @@ public class UserMasterDAOImpl implements UserMasterDAO {
 		String query = 
    "  select s.studentid as studentId, s.studentname as studentName,	 droploc.locationdescription as dropLocation ,dr.routename as dropRoute, "+
    " 	dropdm.drivername as dropDriverName, dropdm.contact1 as dropDriverContact, dropvm.vehicleno as dropVehicleNo, droprs.starttime as dropScheduleStarttime , "+
-   " 		'Assistant Name' as assistantname,'999999999' as assistantno "+	
+   " 		droprs.assistantname as assistantname,droprs.assistantno as assistantno "+	
    " 	from student s 		join location droploc on s.droplocation = droploc.id "+	
    "        join routeschedule droprs on s.pickuprouteschedule = droprs.id  "+
    " 		join route dr on droprs.routeid = dr.id	"+
@@ -159,5 +159,19 @@ public class UserMasterDAOImpl implements UserMasterDAO {
 		return routeInfo;
 
 	}
+
+	public List getDisplayNameForParent(String username) {
+		
+		List parentInfo = null;
+		String query="select ua.name from " + 
+				"(select  mothername as name from student where Status='Active' and mothermobileno= '"+username+"' union " + 
+				"select  fathername as name from student where Status='Active'  and fathermobileno= '"+username+"' union " + 
+				"select  gaurdianname as name from student where Status='Active' and gaurdianmobileno= '"+username+"') ua " + 
+				"where ua.name !=''  limit 1 " ; 			
+		parentInfo = jdbcTemplate.queryForList(query);
+		return parentInfo;
+		
+	}
+	
 	
 }

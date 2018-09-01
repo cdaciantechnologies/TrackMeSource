@@ -14,4 +14,5 @@ public interface UserMasterDAO {
 	public List getRouteInfoForParents(String username);
 	public List getPickUpRouteInfoForParents(String username);
 	public List getDropRouteInfoForParents(String username);
+	public List getDisplayNameForParent(String username);
 }
